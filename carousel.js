@@ -1,16 +1,60 @@
-const images = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg'];
-let currentIndex = 0;
+$w.onReady(function () {
+    let images = [
+        "https://static.wixstatic.com/media/3e231f_c8bf5858d17643c9a7d2bfdec1149d29~mv2.png",
+        "https://static.wixstatic.com/media/3e231f_646dda40800d48a39ef124cf9fb2fbb8~mv2.png",
+        "https://static.wixstatic.com/media/3e231f_c8bf5858d17643c9a7d2bfdec1149d29~mv2.png",
+        "https://static.wixstatic.com/media/3e231f_c8bf5858d17643c9a7d2bfdec1149d29~mv2.png"
+    ];
 
-function changeImage(imageSrc) {
-    document.getElementById('mainImage').src = imageSrc;
-}
+    let currentIndex = 0;
 
-function prevImage() {
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
-    document.getElementById('mainImage').src = images[currentIndex];
-}
+    const mainImage = $w("#mainImage"); 
+    const thumbnailContainer = $w("#thumbnailContainer");
+    const thumbnails = $w("#thumbnailContainer").children;
+    const prevButton = $w("#prevButton");
+    const nextButton = $w("#nextButton");
 
-function nextImage() {
-    currentIndex = (currentIndex + 1) % images.length;
-    document.getElementById('mainImage').src = images[currentIndex];
-}
+    // Set initial main image
+    mainImage.src = images[currentIndex];
+
+    // Event listener for the "prev" button
+    prevButton.onClick(() => {
+        currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+        updateCarousel();
+    });
+
+    // Event listener for the "next" button
+    nextButton.onClick(() => {
+        currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+        updateCarousel();
+    });
+
+    // Event listener for each thumbnail
+    thumbnails.forEach((thumbnail, index) => {
+        thumbnail.onClick(() => {
+            currentIndex = index;
+            updateCarousel();
+        });
+    });
+
+    // Update main image and thumbnail position
+    function updateCarousel() {
+        mainImage.src = images[currentIndex];
+
+        // Endless loop logic for thumbnails
+        const firstThumbnail = thumbnailContainer.children[0];
+        const lastThumbnail = thumbnailContainer.children[thumbnailContainer.children.length - 1];
+
+        // Move the first thumbnail to the last when going backwards
+        if (currentIndex === 0) {
+            thumbnailContainer.append(firstThumbnail);
+        }
+        // Move the last thumbnail to the first when going forward
+        else if (currentIndex === images.length - 1) {
+            thumbnailContainer.prepend(lastThumbnail);
+        }
+
+        // Optionally, update the visual scroll of thumbnails (smooth transition)
+        thumbnailContainer.style.transform = `translateX(-${currentIndex * 110}px)`;
+    }
+});
