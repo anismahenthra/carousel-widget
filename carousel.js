@@ -16,25 +16,50 @@ let currentIndex = 0;
 const mainImage = document.getElementById("mainImage");
 const prevButton = document.getElementById("prevButton");
 const nextButton = document.getElementById("nextButton");
+const thumbnailsContainer = document.querySelector('.thumbnails');
 
-// Function to update the main image
+/* Update the main image based on the current index */
 function updateMainImage() {
     mainImage.src = images[currentIndex];
 }
 
-// Event listener for "prev" button
+/* Event listener for "prev" button */
 prevButton.addEventListener("click", () => {
     currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
     updateMainImage();
 });
 
-// Event listener for "next" button
+/* Event listener for "next" button */
 nextButton.addEventListener("click", () => {
     currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
     updateMainImage();
 });
 
-// Function to change the main image when a thumbnail is clicked
+/* Function to change the main image when a thumbnail is clicked */
 function changeImage(imageUrl) {
     mainImage.src = imageUrl;
 }
+
+/* Scroll thumbnails horizontally */
+let scrollAmount = 0;
+const thumbnailWidth = 210; // Thumbnail width with margin
+
+/* Scroll thumbnails left */
+function scrollLeft() {
+    if (scrollAmount > 0) {
+        scrollAmount -= thumbnailWidth * 5; // Scroll by 5 thumbnails
+        thumbnailsContainer.style.transform = `translateX(-${scrollAmount}px)`;
+    }
+}
+
+/* Scroll thumbnails right */
+function scrollRight() {
+    if (scrollAmount < thumbnailsContainer.scrollWidth - thumbnailsContainer.clientWidth) {
+        scrollAmount += thumbnailWidth * 5; // Scroll by 5 thumbnails
+        thumbnailsContainer.style.transform = `translateX(-${scrollAmount}px)`;
+    }
+}
+
+// Button event listeners for scrolling thumbnails
+document.getElementById('prevButton').addEventListener("click", scrollLeft);
+document.getElementById('nextButton').addEventListener("click", scrollRight);
