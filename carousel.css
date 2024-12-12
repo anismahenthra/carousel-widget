@@ -3,6 +3,7 @@
     position: relative;
     max-width: 800px;
     margin: auto;
+    text-align: center;
 }
 
 /* Main image */
@@ -10,6 +11,7 @@
     width: 400px;
     height: auto;
     display: block;
+    margin: 0 auto;
 }
 
 /* Arrow buttons */
