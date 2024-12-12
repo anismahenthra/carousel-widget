@@ -16,7 +16,6 @@ let currentIndex = 0;
 const mainImage = document.getElementById("mainImage");
 const prevButton = document.getElementById("prevButton");
 const nextButton = document.getElementById("nextButton");
-const thumbnailContainer = document.getElementById("thumbnailContainer");
 
 // Function to update the main image
 function updateMainImage() {
@@ -39,13 +38,3 @@ nextButton.addEventListener("click", () => {
 function changeImage(imageUrl) {
     mainImage.src = imageUrl;
 }
-
-// Generate thumbnail images dynamically
-images.forEach((image, index) => {
-    const thumbnail = document.createElement("img");
-    thumbnail.classList.add("thumbnail");
-    thumbnail.src = image;
-    thumbnail.alt = `Thumbnail ${index + 1}`;
-    thumbnail.addEventListener("click", () => changeImage(image));
-    thumbnailContainer.appendChild(thumbnail);
-});
