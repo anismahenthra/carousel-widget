@@ -1,11 +1,16 @@
-// Array of image URLs
-const images = [
-    "https://static.wixstatic.com/media/3e231f_c8bf5858d17643c9a7d2bfdec1149d29~mv2.png",
-    "https://static.wixstatic.com/media/3e231f_646dda40800d48a39ef124cf9fb2fbb8~mv2.png",
-    "https://static.wixstatic.com/media/3e231f_c8bf5858d17643c9a7d2bfdec1149d29~mv2.png",
-    "https://static.wixstatic.com/media/3e231f_c8bf5858d17643c9a7d2bfdec1149d29~mv2.png"
-    // Add more images as needed
-];
+// Image URLs for the 1st and 2nd images
+const image1 = "https://static.wixstatic.com/media/3e231f_c8bf5858d17643c9a7d2bfdec1149d29~mv2.png";
+const image2 = "https://static.wixstatic.com/media/3e231f_646dda40800d48a39ef124cf9fb2fbb8~mv2.png";
+
+// Create an array of 20 images, alternating between image1 and image2
+const images = [];
+for (let i = 0; i < 20; i++) {
+    if (i % 2 === 0) {
+        images.push(image1);  // Add image1 for even indexes
+    } else {
+        images.push(image2);  // Add image2 for odd indexes
+    }
+}
 
 let currentIndex = 0;
 const mainImage = document.getElementById("mainImage");
@@ -14,7 +19,7 @@ const nextButton = document.getElementById("nextButton");
 const thumbnailContainer = document.getElementById("thumbnailContainer");
 
 // Function to update the main image
-function updateMainImage() {https://github.com/anismahenthra/carousel-widget/blob/main/carousel.js#L4C32
+function updateMainImage() {
     mainImage.src = images[currentIndex];
 }
 
@@ -34,3 +39,13 @@ nextButton.addEventListener("click", () => {
 function changeImage(imageUrl) {
     mainImage.src = imageUrl;
 }
+
+// Generate thumbnail images dynamically
+images.forEach((image, index) => {
+    const thumbnail = document.createElement("img");
+    thumbnail.classList.add("thumbnail");
+    thumbnail.src = image;
+    thumbnail.alt = `Thumbnail ${index + 1}`;
+    thumbnail.addEventListener("click", () => changeImage(image));
+    thumbnailContainer.appendChild(thumbnail);
+});
